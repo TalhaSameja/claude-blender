@@ -123,29 +123,39 @@ def build(name="hero", loc=(0, 0, 0), hoodie="hoodie", trouser="trouser",
 
 # ---- poses: dicts of joint -> (rx, ry, rz) in degrees -------------------
 
+# Limbs hang along -Z from their joint, so:
+#   rx swings the limb forward/back,  ry swings it out to the side,
+#   rz twists it. Lateral poses need ry -- using rx for them throws the arm
+#   up and forward instead of out.
 IDLE = {
-    "sh_l": (8, 0, -6), "sh_r": (8, 0, 6),
-    "el_l": (12, 0, 0), "el_r": (12, 0, 0),
+    "sh_l": (6, -9, 0), "sh_r": (6, 9, 0),
+    "el_l": (10, 0, 0), "el_r": (10, 0, 0),
     "hip_l": (0, 0, 0), "hip_r": (0, 0, 0),
     "kn_l": (3, 0, 0), "kn_r": (3, 0, 0),
     "neck": (0, 0, 0),
 }
 
-SHRUG = {
-    "sh_l": (-70, 0, -40), "sh_r": (-70, 0, 40),
-    "el_l": (-55, 0, 0), "el_r": (-55, 0, 0),
-    "neck": (6, 0, 0),
+SHRUG = {            # arms out to the sides, forearms turned up
+    "sh_l": (-8, -62, 0), "sh_r": (-8, 62, 0),
+    "el_l": (-34, 0, 0), "el_r": (-34, 0, 0),
+    "neck": (5, 0, 0),
 }
 
-POINT = {
-    "sh_l": (8, 0, -6), "sh_r": (-95, 0, 8),
-    "el_l": (12, 0, 0), "el_r": (-6, 0, 0),
-    "neck": (0, 0, 10),
+POINT = {            # right arm forward, left relaxed
+    "sh_l": (6, -9, 0), "sh_r": (-88, 6, 0),
+    "el_l": (10, 0, 0), "el_r": (-8, 0, 0),
+    "neck": (2, 0, 8),
 }
 
-HOLD = {   # both arms forward, as if gripping a handle
-    "sh_l": (-78, 0, -10), "sh_r": (-78, 0, 10),
-    "el_l": (-20, 0, 0), "el_r": (-20, 0, 0),
+HOLD = {             # both arms forward, gripping a handle
+    "sh_l": (-74, -12, 0), "sh_r": (-74, 12, 0),
+    "el_l": (-16, 0, 0), "el_r": (-16, 0, 0),
+}
+
+THINK = {            # one hand to the chin
+    "sh_l": (6, -9, 0), "sh_r": (-104, 16, 0),
+    "el_l": (10, 0, 0), "el_r": (-96, 0, 0),
+    "neck": (4, 0, -6),
 }
 
 
@@ -170,7 +180,7 @@ def walk(joints, root, frame_start, frame_end, step_frames=12, stride=28,
             "hip_l": (s, 0, 0), "hip_r": (-s, 0, 0),
             "kn_l": (max(0, -s * 0.7) + 4, 0, 0),
             "kn_r": (max(0, s * 0.7) + 4, 0, 0),
-            "sh_l": (-s * 0.5 + 8, 0, -6), "sh_r": (s * 0.5 + 8, 0, 6),
+            "sh_l": (-s * 0.5 + 6, -9, 0), "sh_r": (s * 0.5 + 6, 9, 0),
             "el_l": (12, 0, 0), "el_r": (12, 0, 0),
         }
         pose(joints, p, frame=f)

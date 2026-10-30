@@ -8,7 +8,7 @@ the whole pipeline stays runnable offline.
 
 Usage:  python3 tools/tts.py content/episodes/ep001.json
 """
-import json, os, sys, subprocess, urllib.request, shutil
+import json, os, sys, subprocess, urllib.request, urllib.error, shutil
 
 API = "https://api.elevenlabs.io/v1/text-to-speech/{voice}"
 # Deadpan narrator. Override per-episode with "voice_id".
@@ -66,12 +66,22 @@ def main(ep_path):
         print("[tts] ELEVENLABS_API_KEY not set -> writing silent placeholders")
 
     timings, cursor = [], 0.0
+    degraded = False
     for i, shot in enumerate(ep["shots"]):
         line = shot.get("line", "").strip()
         dest = os.path.join(adir, f"line_{i:03d}.mp3")
-        if key and line:
-            synth(line, dest, key, voice)
-            dur = probe_duration(dest) or est_seconds(line)
+        if key and line and not degraded:
+            try:
+                synth(line, dest, key, voice)
+                dur = probe_duration(dest) or est_seconds(line)
+            except (urllib.error.URLError, OSError) as e:
+                # Unreachable API (blocked host, offline, outage) must not
+                # abort a render that is otherwise ready to go.
+                print(f"[tts] ERROR reaching ElevenLabs: {e}")
+                print("[tts] falling back to silent placeholders for all lines")
+                degraded = True
+                dur = shot.get("dur") or est_seconds(line)
+                silence(dur, dest)
         else:
             dur = shot.get("dur") or est_seconds(line or "...")
             silence(dur, dest)
@@ -85,6 +95,10 @@ def main(ep_path):
 
     json.dump(timings, open(os.path.join(outdir, "timings.json"), "w"), indent=2)
     print(f"[tts] total {cursor:.1f}s -> {outdir}/timings.json")
+    if degraded or not key:
+        print("[tts] NOTE: audio is silent placeholder. Re-run this step once "
+              "ElevenLabs is reachable, THEN re-render -- shot lengths come "
+              "from the real audio.")
 
 
 if __name__ == "__main__":

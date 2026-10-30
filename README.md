@@ -64,13 +64,26 @@ Output lands in `output/<id>/<id>.mp4`.
 
 ## Render performance
 
-Measured on 4 CPU cores, no GPU, vertical 1080×1920:
+Measured on 4 CPU cores, no GPU.
 
-| Settings | s/frame | 60s episode |
-|---|---|---|
-| 16 samples + denoise | 12.18 | 4.9 hrs |
-| 4 samples, denoiser off | **1.14** | **27 min** |
-| 720×1280, 4 samples | **0.40** | 9.6 min |
+Synthetic benchmark — one object, which is what isolates the settings:
+
+| Settings (1080×1920) | s/frame |
+|---|---|
+| 16 samples + denoise | 12.18 |
+| 4 samples, denoiser off | **1.14** |
+
+Real episode — `ep001`, 10 shots across 3 sets, ~100 objects per scene:
+
+| | |
+|---|---|
+| 720×1280, 4 samples | **1.13 s/frame** |
+| 809 frames (31s of video) | **15.2 min** |
+
+Scene complexity, not sample count, dominates once a set is dressed: a full
+street costs roughly 3× a bare one. Budget **~1.1 s/frame at 720×1280** and
+**~3 s/frame at 1080×1920** for real episodes, so a 60-second 1080p episode
+is a little over an hour unattended.
 
 The denoiser was costing ~10× more than the sampling it was cleaning up,
 while flat-shaded cartoon geometry has almost no noise to clean. Turning it

@@ -58,14 +58,14 @@ def rig(kind, subject=(0, 0, 1.0), frame_start=1, frame_end=48, seed=0):
     sx, sy, sz = subject
     presets = {
         # (start_loc, end_loc, look_at, lens)
-        "closeup":  ((sx + 0.9, sy - 2.3, sz + 0.55),
-                     (sx + 0.70, sy - 2.1, sz + 0.50), (sx, sy, sz + 0.45), 50),
-        "medium":   ((sx + 1.9, sy - 3.6, sz + 0.5),
-                     (sx + 1.5, sy - 3.3, sz + 0.45), (sx, sy, sz - 0.05), 42),
+        "closeup":  ((sx + 0.75, sy - 2.9, sz + 0.70),
+                     (sx + 0.60, sy - 2.7, sz + 0.66), (sx, sy, sz + 0.60), 46),
+        "medium":   ((sx + 1.9, sy - 4.0, sz + 0.55),
+                     (sx + 1.5, sy - 3.7, sz + 0.50), (sx, sy, sz + 0.15), 40),
         "wide":     ((sx + 4.2, sy - 6.4, sz + 1.8),
                      (sx + 3.4, sy - 5.9, sz + 1.6), (sx, sy, sz - 0.1), 35),
-        "low":      ((sx + 1.4, sy - 2.6, 0.35),
-                     (sx + 1.1, sy - 2.4, 0.5), (sx, sy, sz + 0.3), 38),
+        "low":      ((sx + 1.5, sy - 3.0, 0.40),
+                     (sx + 1.2, sy - 2.8, 0.55), (sx, sy, sz + 0.45), 36),
         "topdown":  ((sx + 0.5, sy - 2.0, 9.0),
                      (sx + 0.2, sy - 1.4, 8.2), (sx, sy, 0.4), 40),
         "orbit":    ((sx + 4.0, sy - 4.0, sz + 1.6),
