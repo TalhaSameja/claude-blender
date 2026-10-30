@@ -1,0 +1,5 @@
+output/
+.venv-bpy/
+__pycache__/
+*.pyc
+.env

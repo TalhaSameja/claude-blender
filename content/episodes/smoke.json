@@ -1,0 +1,15 @@
+{
+  "id": "smoke", "fps": 12, "seed": 3,
+  "shots": [
+    {"set":"suburb","cam":"medium","res":"540","dur":0.5,
+     "actor":{"loc":[0,0,0],"yaw":200,"action":"idle"},
+     "props":[{"type":"suitcase","loc":[1.0,-0.3,0]}],
+     "line":"smoke test one"},
+    {"set":"car","cam":"closeup","res":"540","dur":0.5,
+     "actor":{"loc":[-0.55,0.1,0.42],"yaw":180,"action":"hold"},
+     "line":"smoke test two"},
+    {"set":"street","cam":"wide","res":"540","dur":0.5,
+     "actor":{"loc":[0,-2,0],"yaw":180,"action":"walk","distance":2.0},
+     "line":"smoke test three"}
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "id": "ep001",
+  "title": "Why Do Suitcases Have Wheels?",
+  "series": "WHY IS IT LIKE THIS",
+  "fps": 24,
+  "seed": 7,
+  "voice_id": "pNInz6obpgDQGcFmaJgB",
+  "shots": [
+    {"set":"suburb","cam":"medium","res":"720","dur":2.6,
+     "actor":{"loc":[0,0,0],"yaw":8,"action":"idle"},
+     "props":[{"type":"suitcase","loc":[0.95,-0.35,0]}],
+     "hilite":["WHEELS"],
+     "line":"Suitcases have wheels. Nobody asks why."},
+
+    {"set":"suburb","cam":"closeup","res":"720","dur":2.8,
+     "actor":{"loc":[0,0,0],"yaw":8,"action":"point"},
+     "props":[{"type":"suitcase","loc":[0.95,-0.35,0]}],
+     "hilite":["1970."],
+     "line":"The answer begins in 1970."},
+
+    {"set":"street","cam":"wide","res":"720","dur":3.2,
+     "actor":{"loc":[0,-3,0],"yaw":8,"action":"idle"},
+     "props":[{"type":"suitcase","loc":[1.0,-3.3,0],"color":"accent"}],
+     "hilite":["CARRIED"],
+     "line":"Before that, luggage was simply carried. By hand. Forever."},
+
+    {"set":"street","cam":"low","res":"720","dur":3.0,
+     "actor":{"loc":[0,-3,0],"yaw":8,"action":"shrug"},
+     "props":[{"type":"suitcase","loc":[1.0,-3.3,0],"color":"accent"}],
+     "hilite":["FINE."],
+     "line":"Everyone agreed this was fine. It was not fine."},
+
+    {"set":"void","cam":"closeup","res":"720","dur":3.4,
+     "actor":{"loc":[0,0,0],"yaw":8,"action":"hold"},
+     "props":[{"type":"suitcase","loc":[0.8,-0.4,0],"color":"roof"}],
+     "hilite":["WHEEL"],
+     "line":"A man looked at a suitcase. Then he looked at a wheel."},
+
+    {"set":"void","cam":"medium","res":"720","dur":3.0,
+     "actor":{"loc":[0,0,0],"yaw":8,"action":"point"},
+     "props":[{"type":"suitcase","loc":[0.9,-0.4,0],"color":"roof"}],
+     "hilite":["TWENTY","YEARS"],
+     "line":"It took him twenty years to connect these two objects.",
+     "pad":0.3},
+
+    {"set":"suburb","cam":"wide","res":"720","dur":3.2,
+     "actor":{"loc":[0,-2,0],"yaw":8,"action":"walk","distance":2.4},
+     "props":[{"type":"suitcase","loc":[1.1,-2.4,0]}],
+     "hilite":["GENIUS"],
+     "line":"We now call this genius. At the time, people were furious."},
+
+    {"set":"suburb","cam":"low","res":"720","dur":3.0,
+     "actor":{"loc":[0,0,0],"yaw":8,"action":"shrug"},
+     "props":[{"type":"suitcase","loc":[0.95,-0.4,0]}],
+     "hilite":["KERB."],
+     "line":"The wheels worked perfectly. Until they met a kerb."},
+
+    {"set":"street","cam":"medium","res":"720","dur":3.2,
+     "actor":{"loc":[0,-2,0],"yaw":8,"action":"idle"},
+     "props":[{"type":"suitcase","loc":[1.0,-2.3,0]},
+              {"type":"box","loc":[1.0,-1.2,0.08],"scale":[1.2,0.5,0.16],"color":"road"}],
+     "hilite":["CARRY","IT."],
+     "line":"So we invented a solution. You pick it up and carry it."},
+
+    {"set":"void","cam":"closeup","res":"720","dur":3.4,
+     "actor":{"loc":[0,0,0],"yaw":8,"action":"idle"},
+     "props":[{"type":"suitcase","loc":[0.85,-0.4,0]}],
+     "hilite":["BACK","WHERE","STARTED."],
+     "line":"Fifty years of progress. We are back where we started.",
+     "pad":0.6}
+  ]
+}

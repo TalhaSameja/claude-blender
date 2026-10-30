@@ -1,0 +1,53 @@
+{
+  "id": "ep002",
+  "title": "A Cloud Has Been Charged With Loitering",
+  "series": "NOTHING NEWS",
+  "fps": 24,
+  "seed": 11,
+  "voice_id": "pNInz6obpgDQGcFmaJgB",
+  "shots": [
+    {"set":"suburb","cam":"wide","res":"720","theme":"retro","dur":2.6,
+     "overlay":{"headline":"CLOUD CHARGED WITH LOITERING","live":true},
+     "hilite":["charged."],
+     "line":"A cloud has been charged."},
+
+    {"set":"suburb","cam":"medium","res":"720","theme":"retro","dur":3.2,
+     "actor":{"loc":[0,0,0],"yaw":8,"action":"idle"},
+     "overlay":{"headline":"OFFENCE: LOITERING WITH INTENT","live":true},
+     "hilite":["eleven","days."],
+     "line":"It remained above a car park for eleven days."},
+
+    {"set":"suburb","cam":"low","res":"720","theme":"retro","dur":3.4,
+     "actor":{"loc":[0,0,0],"yaw":8,"action":"point"},
+     "overlay":{"headline":"WITNESS: GERALD, 51","live":false},
+     "hilite":["asked","leave."],
+     "line":"Gerald, 51, asked it to leave. It did not leave."},
+
+    {"set":"street","cam":"wide","res":"720","theme":"retro","dur":3.3,
+     "hilite":["refused","comment."],
+     "line":"The cloud has refused to comment."},
+
+    {"set":"void","cam":"closeup","res":"720","theme":"retro","dur":3.5,
+     "actor":{"loc":[0,0,0],"yaw":8,"action":"shrug"},
+     "overlay":{"headline":"LEGAL TEAM: NO COMMENT","live":false},
+     "hilite":["lawyer.","concerns."],
+     "line":"It has appointed a lawyer. The lawyer has concerns."},
+
+    {"set":"street","cam":"medium","res":"720","theme":"retro","dur":3.4,
+     "actor":{"loc":[0,-2,0],"yaw":8,"action":"idle"},
+     "hilite":["case","number","four."],
+     "line":"The case number is seven hundred and four.",
+     "pad":0.3},
+
+    {"set":"suburb","cam":"low","res":"720","theme":"retro","dur":3.3,
+     "actor":{"loc":[0,0,0],"yaw":8,"action":"point"},
+     "overlay":{"headline":"TRIAL SET FOR THURSDAY","live":true},
+     "hilite":["Thursday."],
+     "line":"Proceedings begin on Thursday. The cloud is aware."},
+
+    {"set":"suburb","cam":"wide","res":"720","theme":"retro","dur":3.6,
+     "hilite":["rained.","unrelated."],
+     "line":"It has since rained. Officials say this is unrelated.",
+     "pad":0.6}
+  ]
+}
