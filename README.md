@@ -5,8 +5,15 @@ JSON, narrates them with ElevenLabs, burns captions, and outputs a finished
 9:16 MP4 — with **no third-party assets anywhere in the render path**, so
 every frame is original work the channel owns.
 
+**Picking this up fresh? Read [`docs/HANDOFF.md`](docs/HANDOFF.md) first** —
+full context, benchmarks, fixed bugs, review findings and next steps.
+
+- **Handoff / full context:** [`docs/HANDOFF.md`](docs/HANDOFF.md)
+- **Benchmarks and technical decisions:** [`docs/DECISIONS.md`](docs/DECISIONS.md)
+- **Review findings:** [`docs/REVIEWS.md`](docs/REVIEWS.md)
 - **Strategy, monetisation and policy risk:** [`docs/STRATEGY.md`](docs/STRATEGY.md)
 - **Channel concept and 60 ready episode ideas:** [`docs/IDEAS.md`](docs/IDEAS.md)
+- **Finished videos and reference stills:** [`deliverables/`](deliverables/)
 
 ## How it works
 

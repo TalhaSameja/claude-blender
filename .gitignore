@@ -3,3 +3,7 @@ output/
 __pycache__/
 *.pyc
 .env
+
+# deliverables/ is tracked on purpose: the finished videos and the
+# reference stills are context a fresh session needs.
+!deliverables/
