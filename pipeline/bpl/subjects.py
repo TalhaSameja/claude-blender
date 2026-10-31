@@ -202,3 +202,73 @@ def document(loc=(0, 0, 1.0), yaw=0):
         parts.append(kit.box((0, -0.02, 0.2 - i * 0.12),
                              (0.34, 0.01, 0.025), "road", "textline"))
     return _group("doc", parts, loc, (D(-12), 0, D(yaw)))
+
+
+def wheel(loc=(0, 0, 0), radius=0.9, yaw=0, tread=True):
+    """A standalone wheel, for the beat where someone looks at one."""
+    parts = []
+    bpy.ops.mesh.primitive_cylinder_add(vertices=28, radius=radius,
+                                        depth=radius * 0.36,
+                                        location=(0, 0, 0),
+                                        rotation=(0, D(90), 0))
+    parts.append(paint(bpy.context.object, "black"))
+    bpy.ops.mesh.primitive_cylinder_add(vertices=20, radius=radius * 0.46,
+                                        depth=radius * 0.40,
+                                        location=(0, 0, 0),
+                                        rotation=(0, D(90), 0))
+    parts.append(paint(bpy.context.object, "stone_light"))
+    if tread:
+        for i in range(10):
+            a = D(i * 36)
+            parts.append(kit.box(
+                (0, math.sin(a) * radius * 0.78, math.cos(a) * radius * 0.78),
+                (radius * 0.40, radius * 0.12, radius * 0.12), "wood_dark"))
+    return _group("wheel", parts, (loc[0], loc[1], loc[2] + radius),
+                  (0, 0, D(yaw)))
+
+
+def kerb(loc=(0, 0, 0), length=18.0, height=0.26, yaw=0):
+    """Raised pavement edge -- the obstacle the wheels meet."""
+    parts = [kit.box((0, 0, height / 2), (3.4, length, height),
+                     "stone_light", "pavement"),
+             kit.box((-1.72, 0, height / 2 + 0.01), (0.22, length, height + 0.04),
+                     "stone", "kerbstone")]
+    return _group("kerb", parts, loc, (0, 0, D(yaw)))
+
+
+def crowd(n=5, centre=(0, 0, 0), spread=(5.0, 2.4), yaw=0, seed=0,
+          angry=True):
+    """A row of onlookers. Varied colour and slight rotation keeps them from
+    reading as clones, which is what kills a crowd at this poly level."""
+    rnd = random.Random(seed)
+    from . import human
+    tops = ["hoodie", "wall_c", "wall_d", "roof", "accent", "wall_a"]
+    legs = ["trouser", "black", "wood_dark"]
+    out = []
+    for i in range(n):
+        x = centre[0] + (i - (n - 1) / 2) * (spread[0] / max(1, n - 1))
+        y = centre[1] + (rnd.random() - 0.5) * spread[1]
+        r, j = human.build(f"crowd{i}", loc=(x, y, centre[2]),
+                           hoodie=rnd.choice(tops), trouser=rnd.choice(legs))
+        r.rotation_euler = (0, 0, D(yaw + (rnd.random() - 0.5) * 26))
+        human.pose(j, human.SHRUG if (angry and i % 2 == 0) else human.IDLE)
+        out.append(r)
+    return out
+
+
+def luggage_pile(loc=(0, 0, 0), n=4, seed=0):
+    """Old-style cases with no wheels, stacked."""
+    rnd = random.Random(seed)
+    cols = ["wood_dark", "roof", "wall_c", "wood"]
+    parts = []
+    z = 0.0
+    for i in range(n):
+        w = 0.95 - i * 0.09
+        h = 0.26 + rnd.random() * 0.08
+        parts.append(kit.box((rnd.uniform(-.08, .08), rnd.uniform(-.06, .06),
+                              z + h / 2), (w, w * 0.62, h),
+                             cols[i % len(cols)], "case"))
+        parts.append(kit.box((0, 0, z + h), (w * 0.22, 0.05, 0.07),
+                             "black", "handle"))
+        z += h
+    return _group("luggage", parts, loc)

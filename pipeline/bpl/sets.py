@@ -49,6 +49,12 @@ def _courthouse(seed=0):
     subjects.courthouse(seed=seed)
 
 
+def _pavement(seed=0):
+    kit.ground(140, "ground")
+    kit.road(140, 8)
+    subjects.kerb(loc=(4.6, 0, 0), length=40)
+
+
 def _sky(seed=0):
     """Nothing but sky -- for a shot where the cloud IS the subject."""
     pass
@@ -57,7 +63,8 @@ def _sky(seed=0):
 SETS = {"street": kit.street, "suburb": _suburb,
         "car": _car_interior, "void": _void,
         "carpark": _carpark, "courtroom": _courtroom,
-        "courthouse": _courthouse, "sky": _sky}
+        "courthouse": _courthouse, "sky": _sky,
+        "pavement": _pavement}
 
 
 def build_set(name, seed=0):

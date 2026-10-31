@@ -77,6 +77,19 @@ def build_shot(shot, fps, nframes, seed=0):
             subjects.briefcase(loc=loc, yaw=p.get("yaw", 0))
         elif t == "document":
             subjects.document(loc=loc, yaw=p.get("yaw", 0))
+        elif t == "wheel":
+            subjects.wheel(loc=loc, radius=p.get("radius", 0.9),
+                           yaw=p.get("yaw", 0))
+        elif t == "kerb":
+            subjects.kerb(loc=loc, length=p.get("length", 18.0),
+                          yaw=p.get("yaw", 0))
+        elif t == "crowd":
+            subjects.crowd(n=p.get("n", 5), centre=loc,
+                           spread=tuple(p.get("spread", (5.0, 2.4))),
+                           yaw=p.get("yaw", 0), seed=p.get("seed", 0))
+        elif t == "luggage":
+            subjects.luggage_pile(loc=loc, n=p.get("n", 4),
+                                  seed=p.get("seed", 0))
         elif t == "tree":
             kit.tree(loc, h=p.get("h", 2.6), seed=p.get("seed", 0))
         else:
