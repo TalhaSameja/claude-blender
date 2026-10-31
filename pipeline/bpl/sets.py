@@ -1,7 +1,7 @@
 """Reusable sets + camera rigs. An episode picks a set by name and never
 touches Blender directly -- that is what makes 2 videos/day survivable."""
 import bpy, math, random
-from . import kit, world
+from . import kit, world, subjects
 from .style import paint, PALETTE
 from . import human
 
@@ -36,8 +36,28 @@ def _void(seed=0):
     kit.ground(60, "wall_b")
 
 
+def _carpark(seed=3):
+    kit.ground(140, "grass")
+    subjects.car_park(seed=seed)
+
+
+def _courtroom(seed=0):
+    subjects.courtroom(seed=seed)
+
+
+def _courthouse(seed=0):
+    subjects.courthouse(seed=seed)
+
+
+def _sky(seed=0):
+    """Nothing but sky -- for a shot where the cloud IS the subject."""
+    pass
+
+
 SETS = {"street": kit.street, "suburb": _suburb,
-        "car": _car_interior, "void": _void}
+        "car": _car_interior, "void": _void,
+        "carpark": _carpark, "courtroom": _courtroom,
+        "courthouse": _courthouse, "sky": _sky}
 
 
 def build_set(name, seed=0):

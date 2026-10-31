@@ -116,6 +116,18 @@ def main(ep_path):
     man = json.load(open(os.path.join(outdir, "render_manifest.json")))
     timings = json.load(open(os.path.join(outdir, "timings.json")))
     fps = man["fps"]
+
+    # Guard against assembling a stale render: if the manifest's shot lengths
+    # no longer match timings.json, the frames on disk belong to a different
+    # (or unfinished) run.
+    if len(man["shots"]) != len(timings):
+        sys.exit(f"[assemble] manifest has {len(man['shots'])} shots but "
+                 f"timings has {len(timings)} -- re-render first")
+    for m, t in zip(man["shots"], timings):
+        if abs(m["duration"] - t["duration"]) > 0.01:
+            sys.exit(f"[assemble] shot {m['index']} was rendered for "
+                     f"{m['duration']:.2f}s but the narration is "
+                     f"{t['duration']:.2f}s -- re-render first")
     work = os.path.join(outdir, "work"); os.makedirs(work, exist_ok=True)
 
     # 1. each shot's frames -> a clip

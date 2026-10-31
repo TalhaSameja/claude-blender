@@ -13,7 +13,7 @@ RES = {"1080": (1080, 1920), "720": (720, 1280), "540": (540, 960)}
 
 
 def new_scene(res="1080", fps=24, samples=4, shading="soft", sky=None,
-              theme="pastel"):
+              theme="pastel", fill=False):
     bpy.ops.preferences.addon_enable(module="cycles")
     bpy.ops.wm.read_factory_settings(use_empty=True)
     # Blender 5.x uses slotted actions, so walking action.fcurves to fix
@@ -50,6 +50,11 @@ def new_scene(res="1080", fps=24, samples=4, shading="soft", sky=None,
 
     if shading == "soft":
         key_light()
+        if fill:
+            # Interiors get no ambient: with max_bounces=0 the world sky is
+            # not a light source, so surfaces facing away from the key go
+            # black. A soft opposing fill costs one extra shadow ray.
+            key_light(angle=(1.25, 0.0, -2.3), energy=1.15)
     return sc
 
 
