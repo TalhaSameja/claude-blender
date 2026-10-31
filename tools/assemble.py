@@ -134,10 +134,23 @@ def main(ep_path):
     run(["ffmpeg", "-loglevel", "error", "-y", "-f", "concat", "-safe", "0",
          "-i", lst, "-c", "copy", silent])
 
-    # 2. narration -> one track
+    # 2. narration -> one track.
+    # Each shot is rendered for clip + pad, so the same pad has to exist in
+    # the audio as silence. Without it the track is short by sum(pad) and
+    # -shortest truncates the end of every episode.
+    sil_dir = os.path.join(work, "sil"); os.makedirs(sil_dir, exist_ok=True)
+    seq = []
+    for i, (t, shot) in enumerate(zip(timings, ep["shots"])):
+        seq.append(os.path.abspath(t["audio"]))
+        pad = shot.get("pad", 0.25)
+        if pad > 0:
+            sp = os.path.join(sil_dir, f"pad_{i:03d}.mp3")
+            run(["ffmpeg", "-loglevel", "error", "-y", "-f", "lavfi", "-i",
+                 "anullsrc=r=44100:cl=mono", "-t", f"{pad:.3f}",
+                 "-c:a", "libmp3lame", "-q:a", "9", sp])
+            seq.append(os.path.abspath(sp))
     alst = os.path.join(work, "audio.txt")
-    open(alst, "w").write("\n".join(
-        f"file '{os.path.abspath(t['audio'])}'" for t in timings))
+    open(alst, "w").write("\n".join(f"file '{p}'" for p in seq))
     voice = os.path.join(work, "voice.m4a")
     run(["ffmpeg", "-loglevel", "error", "-y", "-f", "concat", "-safe", "0",
          "-i", alst, "-c:a", "aac", "-b:a", "160k", voice])
