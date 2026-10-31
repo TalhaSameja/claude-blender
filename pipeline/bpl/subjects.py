@@ -302,7 +302,7 @@ def case_file(loc=(0, 0, 1.25), number="704", defendant="CLOUD", yaw=0,
     g = _group("case_file", parts, loc, (D(rx), 0, D(yaw)))
     txts = [
         text3d("CASE No.", (0, -0.035, 0.30), 0.105, "road"),
-        text3d(number, (0, -0.045, 0.02), 0.44, "accent"),
+        text3d(number, (0, -0.045, 0.02), 0.38, "accent"),
         text3d("DEFENDANT", (0, -0.035, -0.34), 0.075, "road"),
         text3d(defendant, (0, -0.040, -0.50), 0.155, "black"),
     ]
