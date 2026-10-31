@@ -90,6 +90,20 @@ def build_shot(shot, fps, nframes, seed=0):
         elif t == "luggage":
             subjects.luggage_pile(loc=loc, n=p.get("n", 4),
                                   seed=p.get("seed", 0))
+        elif t == "case_file":
+            subjects.case_file(loc=loc, number=str(p.get("number", "704")),
+                               defendant=p.get("defendant", "CLOUD"),
+                               yaw=p.get("yaw", 0))
+        elif t == "sign":
+            subjects.sign(p.get("text", ""), loc=loc,
+                          size=p.get("size", 0.45),
+                          color=p.get("color", "accent"),
+                          yaw=p.get("yaw", 0), post=p.get("post", True))
+        elif t == "text":
+            subjects.text3d(p.get("text", ""), loc=loc,
+                            size=p.get("size", 0.4),
+                            color=p.get("color", "accent"),
+                            yaw=p.get("yaw", 0))
         elif t == "tree":
             kit.tree(loc, h=p.get("h", 2.6), seed=p.get("seed", 0))
         else:

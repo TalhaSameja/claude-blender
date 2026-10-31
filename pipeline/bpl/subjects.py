@@ -272,3 +272,62 @@ def luggage_pile(loc=(0, 0, 0), n=4, seed=0):
                              "black", "handle"))
         z += h
     return _group("luggage", parts, loc)
+
+
+def text3d(body, loc=(0, 0, 0), size=0.3, color="black", yaw=0, rx=0,
+           align="CENTER", extrude=0.01, bold=True):
+    """Real 3D text. Needed wherever the gag IS the words -- a case number
+    read aloud has to be legible on screen or the beat is wasted."""
+    bpy.ops.object.text_add(location=(0, 0, 0))
+    t = bpy.context.object
+    t.data.body = body
+    t.data.size = size
+    t.data.align_x = align
+    t.data.align_y = "CENTER"
+    t.data.extrude = extrude
+    t.data.space_character = 1.05
+    if bold:
+        t.data.bevel_depth = size * 0.012
+    paint(t, color, shading="flat")
+    t.location = loc
+    t.rotation_euler = (D(90 + rx), 0, D(yaw))
+    return t
+
+
+def case_file(loc=(0, 0, 1.25), number="704", defendant="CLOUD", yaw=0,
+              rx=-10):
+    """A stamped case file. The number is the punchline, so it is set large."""
+    parts = [kit.box((0, 0, 0), (1.15, 0.03, 1.5), "white", "paper")]
+    parts.append(kit.box((0, -0.02, 0.56), (0.95, 0.01, 0.035), "road", "rule"))
+    g = _group("case_file", parts, loc, (D(rx), 0, D(yaw)))
+    txts = [
+        text3d("CASE No.", (0, -0.035, 0.30), 0.105, "road"),
+        text3d(number, (0, -0.045, 0.02), 0.44, "accent"),
+        text3d("DEFENDANT", (0, -0.035, -0.34), 0.075, "road"),
+        text3d(defendant, (0, -0.040, -0.50), 0.155, "black"),
+    ]
+    for t in txts:
+        t.rotation_euler = (D(90), 0, 0)
+        t.parent = g
+    return g
+
+
+def sign(body, loc=(0, 0, 0), size=0.45, width=None, color="accent",
+         text_color="white", yaw=0, post=True):
+    """A standing sign board with real lettering."""
+    w = width or (len(body) * size * 0.46 + 0.4)
+    parts = [kit.box((0, 0, 0), (w, 0.08, size * 1.9), color, "board")]
+    if post:
+        parts.append(kit.box((0, 0, -size * 1.9), (0.1, 0.1, size * 1.9),
+                             "wood_dark", "post"))
+    g = _group("sign", parts, loc, (0, 0, D(yaw)))
+    t = text3d(body, (0, -0.06, 0), size, text_color)
+    t.rotation_euler = (D(90), 0, 0)
+    t.parent = g
+    return g
+
+
+def year_card(year="1970", loc=(0, 0, 1.6), size=0.9, yaw=0):
+    """A big date stamp for an era cut."""
+    t = text3d(str(year), loc, size, "accent", yaw=yaw)
+    return t

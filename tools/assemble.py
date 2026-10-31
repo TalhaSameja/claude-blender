@@ -15,8 +15,15 @@ HILITE = "&H003C62D8"     # rust orange -- the highlight colour the
                           # @ro14z_3f reference uses on key words
 WHITE = "&H00F2F2F2"
 RED = "&H003030CC"
-MAX_CHARS = 28            # per caption line, tuned for 1080-wide vertical
+MAX_CHARS = 18            # 540px of usable width / ~30px per bold
+                          # glyph at this size. 24 overflowed the frame.
 CAPS_UPPERCASE = False    # that reference uses sentence case, not caps
+
+# Instagram/TikTok overlay their own UI on the bottom ~20% and the right-hand
+# ~18% of a Reel. Captions sat at 82% of height, directly under the like,
+# comment and share buttons. Everything below is keyed off these.
+CAP_BASELINE = 0.33       # caption MarginV as a fraction of height (from foot)
+SIDE_MARGIN = 0.125       # left/right margin as a fraction of width
 
 
 def run(cmd):
@@ -32,15 +39,31 @@ def ts(t):
 
 
 def chunks(line, max_chars=MAX_CHARS):
-    """Split a line into caption-sized groups, preserving word order."""
-    words, out, cur = line.split(), [], ""
-    for w in words:
-        if cur and len(cur) + 1 + len(w) > max_chars:
-            out.append(cur); cur = w
-        else:
-            cur = f"{cur} {w}".strip()
-    if cur:
-        out.append(cur)
+    """Split a line into caption cards.
+
+    Splits at sentence boundaries first, so a punchline clause stays whole,
+    then packs words. A trailing card of one or two words is pulled back into
+    the previous card where it fits -- stranding the payoff noun on its own
+    card ("hundred and four.") kills the joke.
+    """
+    sentences = [x.strip() for x in re.split(r"(?<=[.!?])\s+", line) if x.strip()]
+    out = []
+    for sent in sentences:
+        cur = ""
+        part = []
+        for w in sent.split():
+            if cur and len(cur) + 1 + len(w) > max_chars:
+                part.append(cur); cur = w
+            else:
+                cur = f"{cur} {w}".strip()
+        if cur:
+            part.append(cur)
+        # rescue a stranded tail
+        if len(part) > 1 and len(part[-1].split()) <= 2:
+            if len(part[-2]) + 1 + len(part[-1]) <= max_chars + 8:
+                part[-2] = f"{part[-2]} {part[-1]}"
+                part.pop()
+        out.extend(part)
     return out or [""]
 
 
@@ -63,13 +86,13 @@ def build_ass(timings, shots, path, width, height):
 ScriptType: v4.00+
 PlayResX: {width}
 PlayResY: {height}
-WrapStyle: 2
+WrapStyle: 0
 
 [V4+ Styles]
 Format: Name,Fontname,Fontsize,PrimaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding
-Style: Cap,{FONT},{int(height*0.040)},{WHITE},&H00000000,&H88000000,-1,0,0,0,100,100,0,0,1,{max(3,int(height*0.0045))},2,2,60,60,{int(height*0.16)},1
-Style: Band,{FONT},{int(height*0.026)},{WHITE},&H00000000,&H00151515,-1,0,0,0,100,100,0,0,3,0,0,7,{int(width*0.055)},60,60,1
-Style: Live,{FONT},{int(height*0.020)},{WHITE},&H00000000,{RED},-1,0,0,0,100,100,0,0,3,0,0,7,{int(width*0.055)},60,60,1
+Style: Cap,{FONT},{int(height*0.042)},{WHITE},&H00000000,&H88000000,-1,0,0,0,100,100,0,0,1,{max(3,int(height*0.0050))},2,2,{int(width*SIDE_MARGIN)},{int(width*SIDE_MARGIN)},{int(height*CAP_BASELINE)},1
+Style: Band,{FONT},{int(height*0.027)},{WHITE},&H00000000,&H00101010,-1,0,0,0,100,100,0,0,3,{int(height*0.009)},0,7,0,0,0,1
+Style: Live,{FONT},{int(height*0.021)},{WHITE},{RED},{RED},-1,0,0,0,100,100,0,0,3,{int(height*0.008)},0,7,0,0,0,1
 
 [Events]
 Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
@@ -79,16 +102,18 @@ Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
         # news-style lower third, held for the whole shot
         ov = shot.get("overlay")
         if ov:
-            y = int(height * 0.075)
+            x = int(width * 0.055)
+            y = int(height * 0.070)
             start, end = ts(t["start"]), ts(t["start"] + t["duration"])
             if ov.get("live", True):
                 lines.append(
                     f"Dialogue: 1,{start},{end},Live,,0,0,0,"
-                    f",{{\\an7\\pos({int(width*0.065)},{y})}}  LIVE  ")
+                    f",{{\\an7\\pos({x},{y})}}\u00a0LIVE\u00a0")
+                y += int(height * 0.040)
             headline = ov.get("headline", "").upper()
             lines.append(
                 f"Dialogue: 1,{start},{end},Band,,0,0,0,"
-                f",{{\\an7\\pos({int(width*0.065)},{y + int(height*0.034)})}}  {headline}  ")
+                f",{{\\an7\\pos({x},{y})}}\u00a0{headline}\u00a0")
 
         text = (t.get("line") or "").strip()
         if not text:
