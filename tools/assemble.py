@@ -33,6 +33,39 @@ def run(cmd):
     return r
 
 
+def make_bed(seconds, dest, tone="institutional"):
+    """Generate an original ambient bed with ffmpeg's synth sources.
+
+    Deadpan needs something under it: with pure narration the gaps between
+    lines read as broken audio on a phone rather than as comic timing. These
+    are generated sine and noise sources, so the bed is original by
+    construction and carries no licence risk -- unlike trending audio, which
+    is the most common cause of demonetisation on otherwise-original work.
+    """
+    recipes = {
+        # low fifth + filtered rumble: reads as a room with air in it
+        "institutional":
+            "sine=frequency=55:duration={d}[a];"
+            "sine=frequency=82.5:duration={d}[b];"
+            "anoisesrc=d={d}:c=brown:a=0.30[n];"
+            "[a][b]amix=inputs=2[t];"
+            "[n]lowpass=f=220,volume=0.5[nn];"
+            "[t][nn]amix=inputs=2:weights=1 0.8,"
+            "tremolo=f=0.18:d=0.25,highpass=f=35,volume=-12dB[out]",
+        "bright":
+            "sine=frequency=110:duration={d}[a];"
+            "anoisesrc=d={d}:c=pink:a=0.25[n];"
+            "[n]lowpass=f=900,volume=0.4[nn];"
+            "[a][nn]amix=inputs=2:weights=1 0.9,"
+            "volume=-14dB[out]",
+    }
+    graph = recipes.get(tone, recipes["institutional"]).format(d=f"{seconds:.2f}")
+    run(["ffmpeg", "-loglevel", "error", "-y", "-filter_complex", graph,
+         "-map", "[out]", "-ac", "1", "-ar", "44100",
+         "-c:a", "aac", "-b:a", "96k", dest])
+    return dest
+
+
 def ts(t):
     h = int(t // 3600); m = int(t % 3600 // 60); s = t % 60
     return f"{h:d}:{m:02d}:{s:05.2f}"
@@ -58,9 +91,20 @@ def chunks(line, max_chars=MAX_CHARS):
                 cur = f"{cur} {w}".strip()
         if cur:
             part.append(cur)
-        # rescue a stranded tail
+        # A card must not end on a word that leans on the next one, and a
+        # final card of one or two words strands the payoff.
+        WEAK = {"a", "an", "the", "to", "of", "in", "on", "at", "for", "and",
+                "but", "or", "is", "was", "it", "he", "she", "they", "this",
+                "that", "has", "have", "had", "by", "with", "from", "as"}
+        i = 0
+        while i < len(part) - 1:
+            words = part[i].split()
+            while len(words) > 1 and words[-1].lower().strip(".,!?") in WEAK:
+                part[i + 1] = f"{words.pop()} {part[i + 1]}"
+                part[i] = " ".join(words)
+            i += 1
         if len(part) > 1 and len(part[-1].split()) <= 2:
-            if len(part[-2]) + 1 + len(part[-1]) <= max_chars + 8:
+            if len(part[-2]) + 1 + len(part[-1]) <= max_chars + 10:
                 part[-2] = f"{part[-2]} {part[-1]}"
                 part.pop()
         out.extend(part)
@@ -115,6 +159,8 @@ Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
                 f"Dialogue: 1,{start},{end},Band,,0,0,0,"
                 f",{{\\an7\\pos({x},{y})}}\u00a0{headline}\u00a0")
 
+        if shot.get("caption") is False:
+            continue          # the shot's own 3D type carries the line
         text = (t.get("line") or "").strip()
         if not text:
             continue
@@ -191,6 +237,23 @@ def main(ep_path):
     voice = os.path.join(work, "voice.m4a")
     run(["ffmpeg", "-loglevel", "error", "-y", "-f", "concat", "-safe", "0",
          "-i", alst, "-c:a", "aac", "-b:a", "160k", voice])
+
+    # 2b. mix the bed under the narration
+    bed_tone = ep.get("bed", "institutional")
+    if bed_tone:
+        vdur = float(subprocess.run(
+            ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+             "-of", "csv=p=0", voice], capture_output=True,
+            text=True).stdout.strip())
+        bed = make_bed(vdur + 0.5, os.path.join(work, "bed.m4a"), bed_tone)
+        mixed = os.path.join(work, "mix.m4a")
+        run(["ffmpeg", "-loglevel", "error", "-y", "-i", voice, "-i", bed,
+             "-filter_complex",
+             "[0:a]volume=1.0[v];[1:a]volume=1.0[b];"
+             "[v][b]amix=inputs=2:duration=first:dropout_transition=0:"
+             "normalize=0[out]",
+             "-map", "[out]", "-c:a", "aac", "-b:a", "160k", mixed])
+        voice = mixed
 
     # 3. captions
     probe = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v",

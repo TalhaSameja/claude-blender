@@ -314,7 +314,8 @@
         "hundred",
         "four."
       ],
-      "line": "The case number is seven hundred and four."
+      "line": "The case number is seven hundred and four.",
+      "caption": false
     },
     {
       "set": "courthouse",

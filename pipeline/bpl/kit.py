@@ -74,27 +74,48 @@ def street(n=6, spacing=9, seed=1):
 
 
 def suitcase(loc=(0, 0, 0), rot=(0, 0, 0), color="hoodie", scale=1.0):
-    """Hero prop: a wheeled case, built from boxes + cylinders.
+    """Hero prop: a wheeled case.
+
+    A plain box reads as a filing cabinet in close-up, and this is the object
+    the whole episode is named after. Shell seams, a recessed front panel, a
+    telescoping handle that actually meets the body, and larger wheels give
+    it enough edges to read as luggage at 40mm.
 
     Parts are built at LOCAL offsets around the origin and then parented to an
     empty that carries the world placement -- building them at `loc` and also
     moving the parent would double the offset."""
     parts = []
-    loc0 = (0.0, 0.0, 0.0)
-    body = box((loc0[0], loc0[1], loc0[2] + 0.45 * scale),
-               (0.52 * scale, 0.22 * scale, 0.78 * scale), color, "case")
+    s_ = scale
+    body = box((0, 0, 0.46 * s_), (0.54 * s_, 0.24 * s_, 0.80 * s_),
+               color, "case")
     parts.append(body)
-    for sx in (-0.34, 0.34):
-        for sy in (-0.07, 0.07):
-            w = _add("primitive_cylinder_add", vertices=12, radius=0.07 * scale,
-                     depth=0.06 * scale,
-                     location=(loc0[0] + sx * scale, loc0[1] + sy * scale,
-                               loc0[2] + 0.07 * scale),
+    # recessed front panel, a shade lighter
+    parts.append(box((0, -0.125 * s_, 0.46 * s_),
+                     (0.40 * s_, 0.02 * s_, 0.62 * s_), "wall_d", "panel"))
+    # shell seam around the midline
+    parts.append(box((0, 0, 0.46 * s_),
+                     (0.56 * s_, 0.255 * s_, 0.035 * s_), "black", "seam"))
+    # corner bumpers
+    for sx in (-1, 1):
+        for sz in (0.10, 0.82):
+            parts.append(box((sx * 0.27 * s_, 0, sz * s_),
+                             (0.05 * s_, 0.255 * s_, 0.10 * s_),
+                             "black", "bumper"))
+    # wheels: bigger, and set proud of the shell so they read
+    for sx in (-0.33, 0.33):
+        for sy in (-0.10, 0.10):
+            w = _add("primitive_cylinder_add", vertices=14,
+                     radius=0.095 * s_, depth=0.07 * s_,
+                     location=(sx * s_, sy * s_, 0.085 * s_),
                      rotation=(0, math.pi / 2, 0))
             parts.append(paint(w, "black"))
-    handle = box((loc0[0], loc0[1], loc0[2] + 1.0 * scale),
-                 (0.30 * scale, 0.04 * scale, 0.12 * scale), "black", "handle")
-    parts.append(handle)
+    # telescoping handle, attached to the body
+    for sx in (-0.17, 0.17):
+        parts.append(box((sx * s_, 0.085 * s_, 1.00 * s_),
+                         (0.035 * s_, 0.035 * s_, 0.36 * s_),
+                         "black", "stem"))
+    parts.append(box((0, 0.085 * s_, 1.19 * s_),
+                     (0.40 * s_, 0.045 * s_, 0.055 * s_), "black", "grip"))
     grp = bpy.data.objects.new("suitcase", None)
     bpy.context.collection.objects.link(grp)
     grp.location = loc
