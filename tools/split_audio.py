@@ -32,12 +32,58 @@ def total_duration(path):
     return float(r.stdout.strip())
 
 
+def align_segments(spans, texts):
+    """Group `spans` into len(texts) contiguous runs.
+
+    Each line's expected duration is its share of the total word count. A
+    dynamic program picks the grouping that minimises squared error against
+    those expectations, so a pause inside a line gets absorbed rather than
+    splitting it.
+    """
+    m, n = len(spans), len(texts)
+    dur = [e - s for s, e in spans]
+    total = sum(dur)
+    weights = [max(1, len(t.split())) for t in texts]
+    wsum = sum(weights)
+    want = [total * w / wsum for w in weights]
+
+    pre = [0.0] * (m + 1)
+    for i, d in enumerate(dur):
+        pre[i + 1] = pre[i] + d
+
+    INF = float("inf")
+    # best[j][i] = cost of covering the first i segments with the first j lines
+    best = [[INF] * (m + 1) for _ in range(n + 1)]
+    back = [[-1] * (m + 1) for _ in range(n + 1)]
+    best[0][0] = 0.0
+    for j in range(1, n + 1):
+        for i in range(j, m - (n - j) + 1):
+            for k in range(j - 1, i):
+                if best[j - 1][k] == INF:
+                    continue
+                got = pre[i] - pre[k]
+                c = best[j - 1][k] + (got - want[j - 1]) ** 2
+                if c < best[j][i]:
+                    best[j][i] = c
+                    back[j][i] = k
+
+    cuts, i = [m], m
+    for j in range(n, 0, -1):
+        i = back[j][i]
+        cuts.append(i)
+    cuts.reverse()
+    return [(spans[cuts[j]][0], spans[cuts[j + 1] - 1][1]) for j in range(n)]
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("episode")
     ap.add_argument("take")
     ap.add_argument("--min-silence", type=float, default=0.45)
     ap.add_argument("--threshold", type=float, default=-38.0)
+    ap.add_argument("--no-align", action="store_true",
+                    help="fail on a segment-count mismatch instead of "
+                         "aligning by word count")
     a = ap.parse_args()
 
     ep = json.load(open(a.episode))
@@ -60,15 +106,29 @@ def main():
     spans = [(cuts[i], cuts[i + 1]) for i in range(len(cuts) - 1)
              if cuts[i + 1] - cuts[i] > 0.35]
 
-    if len(spans) != len(lines):
-        print(f"[split] detected {len(spans)} segments but the script has "
+    if len(spans) < len(lines):
+        print(f"[split] detected only {len(spans)} segments for "
               f"{len(lines)} lines -- NOT writing anything.")
-        print("[split] adjust --min-silence / --threshold and retry. "
-              "Current: "
+        print("[split] lower --min-silence and retry. Current: "
               f"--min-silence {a.min_silence} --threshold {a.threshold}")
-        for i, (s, e) in enumerate(spans):
-            print(f"         seg {i:02d}  {s:7.2f} -> {e:7.2f}  ({e-s:.2f}s)")
         sys.exit(1)
+
+    if len(spans) > len(lines):
+        if a.no_align:
+            print(f"[split] detected {len(spans)} segments but the script has "
+                  f"{len(lines)} lines -- NOT writing anything.")
+            for i, (st, en) in enumerate(spans):
+                print(f"         seg {i:02d}  {st:7.2f} -> {en:7.2f}  "
+                      f"({en-st:.2f}s)")
+            sys.exit(1)
+        # A delivery tag inside a line (e.g. "[slight pause]") produces a gap
+        # as long as the one between lines, so silence alone cannot tell them
+        # apart. Merge the extra segments back by grouping them into exactly
+        # one run per line, choosing the split points that best match each
+        # line's share of the words.
+        print(f"[split] {len(spans)} segments for {len(lines)} lines "
+              f"-- aligning by word count (mid-line pauses merged)")
+        spans = align_segments(spans, [ep["shots"][i]["line"] for i in lines])
 
     for idx, (shot_i, (s, e)) in enumerate(zip(lines, spans)):
         dest = os.path.join(adir, f"line_{shot_i:03d}.mp3")
