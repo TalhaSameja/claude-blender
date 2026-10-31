@@ -52,7 +52,7 @@ def _courthouse(seed=0):
 def _pavement(seed=0):
     kit.ground(140, "ground")
     kit.road(140, 8)
-    subjects.kerb(loc=(4.6, 0, 0), length=40)
+    subjects.kerb(loc=(4.6, 0, 0), length=40, height=0.40)
 
 
 def _sky(seed=0):

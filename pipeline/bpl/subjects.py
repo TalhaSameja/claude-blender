@@ -227,12 +227,12 @@ def wheel(loc=(0, 0, 0), radius=0.9, yaw=0, tread=True):
                   (0, 0, D(yaw)))
 
 
-def kerb(loc=(0, 0, 0), length=18.0, height=0.26, yaw=0):
+def kerb(loc=(0, 0, 0), length=18.0, height=0.40, yaw=0):
     """Raised pavement edge -- the obstacle the wheels meet."""
     parts = [kit.box((0, 0, height / 2), (3.4, length, height),
                      "stone_light", "pavement"),
-             kit.box((-1.72, 0, height / 2 + 0.01), (0.22, length, height + 0.04),
-                     "stone", "kerbstone")]
+             kit.box((-1.72, 0, height / 2 + 0.01), (0.26, length, height + 0.05),
+                     "road", "kerbstone")]
     return _group("kerb", parts, loc, (0, 0, D(yaw)))
 
 

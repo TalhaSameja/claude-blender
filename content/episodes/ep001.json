@@ -5,76 +5,523 @@
   "fps": 24,
   "seed": 7,
   "shots": [
-    {"set":"pavement","res":"720","theme":"retro","dur":3.71,
-     "camera":{"loc":[0.9,-1.7,0.5],"loc_end":[0.75,-1.5,0.45],"look":[0,0,0.28],"lens":50},
-     "props":[{"type":"suitcase","loc":[0,0,0],"scale":1.0}],
-     "hilite":["wheels.","why."],
-     "line":"Suitcases have wheels. Nobody asks why."},
-
-    {"set":"street","res":"720","theme":"retro","dur":3.23,
-     "camera":{"loc":[6.5,-11,4.5],"loc_end":[5.6,-10.2,4.2],"look":[0,0,1.6],"lens":34},
-     "props":[{"type":"car","loc":[-2.6,1.0,0],"yaw":0,"color":"roof"},
-              {"type":"car","loc":[2.6,-3.0,0],"yaw":180,"color":"wall_a"}],
-     "overlay":{"headline":"1970","live":false},
-     "hilite":["1970."],
-     "line":"The answer begins in 1970."},
-
-    {"set":"pavement","res":"720","theme":"retro","dur":4.19,
-     "camera":{"loc":[3.0,-5.4,2.0],"loc_end":[2.5,-5.0,1.95],"look":[0,-0.4,1.1],"lens":40},
-     "actor":{"loc":[0,-0.6,0],"yaw":10,"action":"hold"},
-     "props":[{"type":"luggage","loc":[1.35,-1.1,0],"n":3,"seed":2}],
-     "hilite":["carried.","hand.","Forever."],
-     "line":"Before that, luggage was simply carried. By hand. Forever."},
-
-    {"set":"pavement","res":"720","theme":"retro","dur":3.75,
-     "camera":{"loc":[2.6,-5.0,2.3],"loc_end":[2.2,-4.6,2.2],"look":[0,-0.3,1.2],"lens":38},
-     "actor":{"loc":[0,-0.6,0],"yaw":10,"action":"shrug"},
-     "props":[{"type":"luggage","loc":[1.5,-1.2,0],"n":4,"seed":5},
-              {"type":"crowd","loc":[-2.8,2.4,0],"n":3,"spread":[3.2,1.4],"yaw":172,"seed":4}],
-     "hilite":["fine.","not"],
-     "line":"Everyone agreed this was fine. It was not fine."},
-
-    {"set":"void","res":"720","theme":"retro","dur":6.27,
-     "camera":{"loc":[2.4,-6.2,2.0],"loc_end":[1.8,-5.8,1.95],"look":[0.1,0,1.0],"lens":36},
-     "actor":{"loc":[0,0.4,0],"yaw":10,"action":"point"},
-     "props":[{"type":"suitcase","loc":[-1.9,-0.3,0],"scale":1.0},
-              {"type":"wheel","loc":[2.1,-0.2,0],"radius":0.95,"yaw":0}],
-     "hilite":["suitcase.","wheel."],
-     "line":"A man looked at a suitcase. Then he looked at a wheel."},
-
-    {"set":"void","res":"720","theme":"retro","dur":3.9,
-     "camera":{"loc":[2.2,-5.6,1.9],"loc_end":[1.8,-5.2,1.85],"look":[0.1,0,1.0],"lens":38},
-     "actor":{"loc":[0,0.4,0],"yaw":10,"action":"think"},
-     "props":[{"type":"suitcase","loc":[-1.8,-0.3,0],"scale":1.0},
-              {"type":"wheel","loc":[2.0,-0.2,0],"radius":0.95}],
-     "overlay":{"headline":"TWENTY YEARS LATER","live":false},
-     "hilite":["twenty","years"],
-     "line":"It took him twenty years to connect these two objects."},
-
-    {"set":"street","res":"720","theme":"retro","dur":4.88,
-     "camera":{"loc":[2.4,-7.4,2.4],"loc_end":[1.9,-6.8,2.3],"look":[0,-0.6,1.3],"lens":36},
-     "props":[{"type":"crowd","loc":[0,-0.4,0],"n":5,"spread":[5.4,1.6],"yaw":6,"seed":9}],
-     "hilite":["genius.","furious."],
-     "line":"We now call this genius. At the time, people were furious."},
-
-    {"set":"pavement","res":"720","theme":"retro","dur":4.07,
-     "camera":{"loc":[1.7,-3.2,0.95],"loc_end":[1.4,-2.9,0.88],"look":[0.3,0.2,0.35],"lens":42},
-     "props":[{"type":"suitcase","loc":[0,-0.5,0],"scale":1.0}],
-     "hilite":["perfectly.","kerb."],
-     "line":"The wheels worked perfectly. Until they met a kerb."},
-
-    {"set":"pavement","res":"720","theme":"retro","dur":4.38,
-     "camera":{"loc":[2.8,-5.2,2.2],"loc_end":[2.3,-4.8,2.1],"look":[0,-0.4,1.2],"lens":38},
-     "actor":{"loc":[0,-0.6,0],"yaw":10,"action":"hold"},
-     "props":[{"type":"suitcase","loc":[0.95,-1.0,0],"scale":1.0}],
-     "hilite":["pick","carry"],
-     "line":"So we invented a solution. You pick it up and carry it."},
-
-    {"set":"pavement","res":"720","theme":"retro","dur":4.39,
-     "camera":{"loc":[3.4,-6.2,2.3],"loc_end":[2.8,-5.7,2.2],"look":[0,-0.4,1.15],"lens":38},
-     "actor":{"loc":[0,-0.6,0],"yaw":10,"action":"hold"},
-     "props":[{"type":"luggage","loc":[1.45,-1.15,0],"n":3,"seed":2}],
-     "hilite":["Fifty","back","started."],
-     "line":"Fifty years of progress. We are back where we started."}
+    {
+      "set": "pavement",
+      "res": "720",
+      "theme": "retro",
+      "dur": 3.71,
+      "camera": {
+        "loc": [
+          1.45,
+          -2.25,
+          0.6
+        ],
+        "loc_end": [
+          1.25,
+          -2.05,
+          0.55
+        ],
+        "look": [
+          0,
+          0,
+          0.4
+        ],
+        "lens": 38
+      },
+      "props": [
+        {
+          "type": "suitcase",
+          "loc": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1.0
+        }
+      ],
+      "hilite": [
+        "wheels.",
+        "why."
+      ],
+      "line": "Suitcases have wheels. Nobody asks why."
+    },
+    {
+      "set": "street",
+      "res": "720",
+      "theme": "retro",
+      "dur": 3.23,
+      "camera": {
+        "loc": [
+          2.6,
+          -12.5,
+          3.6
+        ],
+        "loc_end": [
+          2.2,
+          -11.5,
+          3.4
+        ],
+        "look": [
+          0,
+          -1.0,
+          1.4
+        ],
+        "lens": 30
+      },
+      "props": [
+        {
+          "type": "car",
+          "loc": [
+            -2.6,
+            1.0,
+            0
+          ],
+          "yaw": 0,
+          "color": "roof"
+        },
+        {
+          "type": "car",
+          "loc": [
+            2.6,
+            -3.0,
+            0
+          ],
+          "yaw": 180,
+          "color": "wall_a"
+        }
+      ],
+      "overlay": {
+        "headline": "1970",
+        "live": false
+      },
+      "hilite": [
+        "1970."
+      ],
+      "line": "The answer begins in 1970."
+    },
+    {
+      "set": "pavement",
+      "res": "720",
+      "theme": "retro",
+      "dur": 4.19,
+      "camera": {
+        "loc": [
+          2.3,
+          -5.0,
+          1.8
+        ],
+        "loc_end": [
+          2.0,
+          -4.6,
+          1.75
+        ],
+        "look": [
+          0.1,
+          -0.5,
+          1.0
+        ],
+        "lens": 34
+      },
+      "actor": {
+        "loc": [
+          0,
+          -0.6,
+          0
+        ],
+        "yaw": 10,
+        "action": "hold"
+      },
+      "props": [
+        {
+          "type": "luggage",
+          "loc": [
+            0.78,
+            -1.0,
+            0
+          ],
+          "n": 3,
+          "seed": 2
+        }
+      ],
+      "hilite": [
+        "carried.",
+        "hand.",
+        "Forever."
+      ],
+      "line": "Before that, luggage was simply carried. By hand. Forever."
+    },
+    {
+      "set": "pavement",
+      "res": "720",
+      "theme": "retro",
+      "dur": 3.75,
+      "camera": {
+        "loc": [
+          2.6,
+          -5.6,
+          2.1
+        ],
+        "loc_end": [
+          2.2,
+          -5.2,
+          2.05
+        ],
+        "look": [
+          -0.3,
+          -0.3,
+          1.1
+        ],
+        "lens": 32
+      },
+      "actor": {
+        "loc": [
+          0,
+          -0.6,
+          0
+        ],
+        "yaw": 10,
+        "action": "shrug"
+      },
+      "props": [
+        {
+          "type": "luggage",
+          "loc": [
+            0.8,
+            -1.05,
+            0
+          ],
+          "n": 4,
+          "seed": 5
+        },
+        {
+          "type": "crowd",
+          "loc": [
+            -2.6,
+            1.8,
+            0
+          ],
+          "n": 3,
+          "spread": [
+            3.0,
+            1.2
+          ],
+          "yaw": 172,
+          "seed": 4
+        }
+      ],
+      "hilite": [
+        "fine.",
+        "not"
+      ],
+      "line": "Everyone agreed this was fine. It was not fine."
+    },
+    {
+      "set": "void",
+      "res": "720",
+      "theme": "retro",
+      "dur": 6.27,
+      "camera": {
+        "loc": [
+          0.35,
+          -5.3,
+          1.75
+        ],
+        "loc_end": [
+          0.25,
+          -4.9,
+          1.72
+        ],
+        "look": [
+          0,
+          0,
+          0.95
+        ],
+        "lens": 28
+      },
+      "actor": {
+        "loc": [
+          0,
+          0.5,
+          0
+        ],
+        "yaw": 6,
+        "action": "point"
+      },
+      "props": [
+        {
+          "type": "suitcase",
+          "loc": [
+            -1.25,
+            -0.2,
+            0
+          ],
+          "scale": 1.0
+        },
+        {
+          "type": "wheel",
+          "loc": [
+            1.35,
+            -0.2,
+            0
+          ],
+          "radius": 0.75,
+          "yaw": 0
+        }
+      ],
+      "hilite": [
+        "suitcase.",
+        "wheel."
+      ],
+      "line": "A man looked at a suitcase. Then he looked at a wheel."
+    },
+    {
+      "set": "void",
+      "res": "720",
+      "theme": "retro",
+      "dur": 3.9,
+      "camera": {
+        "loc": [
+          0.35,
+          -5.3,
+          1.75
+        ],
+        "loc_end": [
+          0.25,
+          -4.9,
+          1.72
+        ],
+        "look": [
+          0,
+          0,
+          0.95
+        ],
+        "lens": 28
+      },
+      "actor": {
+        "loc": [
+          0,
+          0.5,
+          0
+        ],
+        "yaw": 6,
+        "action": "think"
+      },
+      "props": [
+        {
+          "type": "suitcase",
+          "loc": [
+            -1.25,
+            -0.2,
+            0
+          ],
+          "scale": 1.0
+        },
+        {
+          "type": "wheel",
+          "loc": [
+            1.35,
+            -0.2,
+            0
+          ],
+          "radius": 0.75
+        }
+      ],
+      "overlay": {
+        "headline": "TWENTY YEARS LATER",
+        "live": false
+      },
+      "hilite": [
+        "twenty",
+        "years"
+      ],
+      "line": "It took him twenty years to connect these two objects."
+    },
+    {
+      "set": "street",
+      "res": "720",
+      "theme": "retro",
+      "dur": 4.88,
+      "camera": {
+        "loc": [
+          1.2,
+          -8.0,
+          2.2
+        ],
+        "loc_end": [
+          0.9,
+          -7.4,
+          2.15
+        ],
+        "look": [
+          0,
+          -0.4,
+          1.2
+        ],
+        "lens": 30
+      },
+      "props": [
+        {
+          "type": "crowd",
+          "loc": [
+            0,
+            -0.6,
+            0
+          ],
+          "n": 5,
+          "spread": [
+            5.0,
+            1.2
+          ],
+          "yaw": 6,
+          "seed": 9
+        }
+      ],
+      "hilite": [
+        "genius.",
+        "furious."
+      ],
+      "line": "We now call this genius. At the time, people were furious."
+    },
+    {
+      "set": "pavement",
+      "res": "720",
+      "theme": "retro",
+      "dur": 4.07,
+      "camera": {
+        "loc": [
+          0.75,
+          -2.15,
+          0.36
+        ],
+        "loc_end": [
+          0.95,
+          -1.95,
+          0.33
+        ],
+        "look": [
+          2.35,
+          -0.28,
+          0.26
+        ],
+        "lens": 40
+      },
+      "props": [
+        {
+          "type": "suitcase",
+          "loc": [
+            2.05,
+            -0.35,
+            0
+          ],
+          "scale": 1.0
+        }
+      ],
+      "hilite": [
+        "perfectly.",
+        "kerb."
+      ],
+      "line": "The wheels worked perfectly. Until they met a kerb."
+    },
+    {
+      "set": "pavement",
+      "res": "720",
+      "theme": "retro",
+      "dur": 4.38,
+      "camera": {
+        "loc": [
+          2.5,
+          -5.0,
+          1.8
+        ],
+        "loc_end": [
+          2.2,
+          -4.6,
+          1.75
+        ],
+        "look": [
+          0.1,
+          -0.5,
+          1.0
+        ],
+        "lens": 34
+      },
+      "actor": {
+        "loc": [
+          0,
+          -0.6,
+          0
+        ],
+        "yaw": 10,
+        "action": "hold"
+      },
+      "props": [
+        {
+          "type": "suitcase",
+          "loc": [
+            0.8,
+            -1.0,
+            0
+          ],
+          "scale": 1.0
+        }
+      ],
+      "hilite": [
+        "pick",
+        "carry"
+      ],
+      "line": "So we invented a solution. You pick it up and carry it."
+    },
+    {
+      "set": "pavement",
+      "res": "720",
+      "theme": "retro",
+      "dur": 4.39,
+      "camera": {
+        "loc": [
+          2.3,
+          -5.0,
+          1.8
+        ],
+        "loc_end": [
+          2.0,
+          -4.6,
+          1.75
+        ],
+        "look": [
+          0.1,
+          -0.5,
+          1.0
+        ],
+        "lens": 34
+      },
+      "actor": {
+        "loc": [
+          0,
+          -0.6,
+          0
+        ],
+        "yaw": 10,
+        "action": "hold"
+      },
+      "props": [
+        {
+          "type": "luggage",
+          "loc": [
+            0.78,
+            -1.0,
+            0
+          ],
+          "n": 3,
+          "seed": 2
+        }
+      ],
+      "hilite": [
+        "Fifty",
+        "back",
+        "started."
+      ],
+      "line": "Fifty years of progress. We are back where we started.",
+      "pad": 1.2
+    }
   ]
 }
