@@ -1,0 +1,27 @@
+# ep001 - "Why Do Suitcases Have Wheels?"
+# Model: Eleven v4 | Stability: Robust (~75%) | Similarity: ~75%
+# Deadpan narrator. He is never amused. Tags are sparse on purpose --
+# over-tagging makes v4 perform, and performing kills this format.
+#
+# PASTE-AS-ONE-BLOCK (then split with tools/split_audio.py).
+# Keep the [pause] lines in: they are the split points.
+
+[flat, matter-of-fact] Suitcases have wheels. Nobody asks why.
+[pause]
+[flat] The answer begins in 1970.
+[pause]
+[flat] Before that, luggage was simply carried. By hand. [slight pause] Forever.
+[pause]
+[deadpan] Everyone agreed this was fine. [beat] It was not fine.
+[pause]
+[flat] A man looked at a suitcase. [slight pause] Then he looked at a wheel.
+[pause]
+[deadpan] It took him twenty years to connect these two objects.
+[pause]
+[flat] We now call this genius. At the time, people were furious.
+[pause]
+[deadpan] The wheels worked perfectly. [slight pause] Until they met a kerb.
+[pause]
+[flat] So we invented a solution. [beat] You pick it up and carry it.
+[pause]
+[deadpan] Fifty years of progress. We are back where we started.

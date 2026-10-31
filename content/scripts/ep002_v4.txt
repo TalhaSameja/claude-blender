@@ -1,0 +1,22 @@
+# ep002 - "A Cloud Has Been Charged With Loitering" (NOTHING NEWS)
+# Model: Eleven v4 | Stability: Robust (~75%) | Similarity: ~75%
+# Read it like a real news bulletin. The joke only works if the anchor
+# does not know it is one. Never [amused], never [laughing].
+#
+# PASTE-AS-ONE-BLOCK (then split with tools/split_audio.py).
+
+[newsreader, flat] A cloud has been charged.
+[pause]
+[matter-of-fact] It remained above a car park for eleven days.
+[pause]
+[flat] Gerald, fifty-one, asked it to leave. [slight pause] It did not leave.
+[pause]
+[newsreader] The cloud has refused to comment.
+[pause]
+[flat] It has appointed a lawyer. [slight pause] The lawyer has concerns.
+[pause]
+[matter-of-fact] The case number is seven hundred and four.
+[pause]
+[newsreader] Proceedings begin on Thursday. [slight pause] The cloud is aware.
+[pause]
+[deadpan] It has since rained. Officials say this is unrelated.

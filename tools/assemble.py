@@ -59,7 +59,7 @@ def style_words(text, hilite):
 
 
 def build_ass(timings, shots, path, width, height):
-    head = f"""[Script Info]
+    ass_header = f"""[Script Info]
 ScriptType: v4.00+
 PlayResX: {width}
 PlayResY: {height}
@@ -79,16 +79,16 @@ Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
         # news-style lower third, held for the whole shot
         ov = shot.get("overlay")
         if ov:
-            y = int(height * 0.74)
+            y = int(height * 0.075)
             start, end = ts(t["start"]), ts(t["start"] + t["duration"])
             if ov.get("live", True):
                 lines.append(
                     f"Dialogue: 1,{start},{end},Live,,0,0,0,"
-                    f",{{\\an7\\pos({int(width*0.055)},{y})}}  LIVE  ")
-            head = ov.get("headline", "").upper()
+                    f",{{\\an7\\pos({int(width*0.065)},{y})}}  LIVE  ")
+            headline = ov.get("headline", "").upper()
             lines.append(
                 f"Dialogue: 1,{start},{end},Band,,0,0,0,"
-                f",{{\\an7\\pos({int(width*0.055)},{y + int(height*0.030)})}}  {head}  ")
+                f",{{\\an7\\pos({int(width*0.065)},{y + int(height*0.034)})}}  {headline}  ")
 
         text = (t.get("line") or "").strip()
         if not text:
@@ -105,7 +105,7 @@ Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
             body = style_words(p, shot.get("hilite"))
             lines.append(f"Dialogue: 0,{ts(cur)},{ts(cur+d)},Cap,,0,0,0,,{body}")
             cur += d
-    open(path, "w").write(head + "\n".join(lines) + "\n")
+    open(path, "w").write(ass_header + "\n".join(lines) + "\n")
     return path
 
 

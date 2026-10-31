@@ -142,8 +142,8 @@ SHRUG = {            # arms out to the sides, forearms turned up
 }
 
 POINT = {            # right arm forward, left relaxed
-    "sh_l": (6, -9, 0), "sh_r": (-88, 6, 0),
-    "el_l": (10, 0, 0), "el_r": (-8, 0, 0),
+    "sh_l": (6, -9, 0), "sh_r": (-68, 28, 0),
+    "el_l": (10, 0, 0), "el_r": (-12, 0, 0),
     "neck": (2, 0, 8),
 }
 

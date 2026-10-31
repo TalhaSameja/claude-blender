@@ -1,0 +1,27 @@
+# A Cloud Has Been Charged With Loitering
+# series: NOTHING NEWS
+# 8 lines -> name the files line_000.mp3 ... line_007.mp3
+
+line_000.mp3
+A cloud has been charged.
+
+line_001.mp3
+It remained above a car park for eleven days.
+
+line_002.mp3
+Gerald, 51, asked it to leave. It did not leave.
+
+line_003.mp3
+The cloud has refused to comment.
+
+line_004.mp3
+It has appointed a lawyer. The lawyer has concerns.
+
+line_005.mp3
+The case number is seven hundred and four.
+
+line_006.mp3
+Proceedings begin on Thursday. The cloud is aware.
+
+line_007.mp3
+It has since rained. Officials say this is unrelated.
